@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 
 <!--
 Preform ajax requests with rest format.
@@ -15,6 +16,16 @@ Example:
 <dom-module id="iron-ajax-rest">
 
   <template>
+
+    <iron-ajax
+      id="ajax"
+      url="[[url]]"
+      method="[[method]]"
+      handle-as="[[handleAs]]"
+      params="[[params]]"
+      last-response="{{lastResponse}}"
+      last-error="{{lastError}}">
+    </iron-ajax>
     
   </template>
 
@@ -26,9 +37,94 @@ Example:
 
     is: 'iron-ajax-rest',
 
+    hostAttributes: {
+      hidden: true
+    },
+
     properties: {
 
-    }
+      rootUrl: {
+        type: String,
+        value: ''
+      },
+
+      handleAs: {
+        type: String,
+        value: 'json'
+      },
+
+      token: {
+        type: String,
+        value: ''
+      },
+
+      url: {
+        type: String,
+        value: ''
+      },
+
+      params: {
+        type: Object,
+        value: {}
+      },
+
+      method: {
+        type: String,
+        value: ''
+      },
+
+      lastResponse: {
+        type: Object,
+        notify: true
+      },
+      
+      lastError: {
+        type: Object,
+        notify: true
+      }
+
+    },
+
+    get: function(route, id, params) {
+      this.url = this.rootUrl + '/' + route + '/' + id;
+      this.method = 'GET';
+      this.params = params;
+      if (this.token) {
+        this.params.token = this.token;
+      }
+      this.$.ajax.generateRequest();
+    },
+
+    post: function(route, params) {
+      this.url = this.rootUrl + '/' + route;
+      this.method = 'POST';
+      this._addTokenGenerateReq(params);
+    },
+
+    put: function(route, id, params) {
+      this.url = this.rootUrl + '/' + route + '/' + id;
+      this.method = 'PUT';
+      this._addTokenGenerateReq(params);
+    },
+    
+    delete: function(route, id) {
+      this.url = this.rootUrl + '/' + route + '/' + id;
+      this.method = 'DELETE';
+      this._addTokenGenerateReq('');
+    },
+
+    _addTokenGenerateReq: function(params) {
+      if (params) {
+        this.params = params;
+      }
+      if (this.token) {
+        this.params._token = this.token;
+      }
+      this.$.ajax.generateRequest();
+    },
+
+    _handleResponse: function(e) {
+    },
 
   });
 

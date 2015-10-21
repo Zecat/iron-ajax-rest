@@ -18,9 +18,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body unresolved>
 
-    <iron-ajax-rest></iron-ajax-rest>
+    <iron-ajax-rest id="ajax"></iron-ajax-rest>
 
     <script>
+      document.querySelector('#ajax').get('test', 2, {a:'a'});
     </script>
   </body>
 </html>
