@@ -24,8 +24,7 @@ Example:
       handle-as="[[handleAs]]"
       params="[[params]]"
       last-response="{{lastResponse}}"
-      last-error="{{lastError}}"
-      content-type="[[contentType]]">
+      last-error="{{lastError}}">
     </iron-ajax>
 
   </template>
@@ -102,7 +101,7 @@ Example:
     delete: function(route, id, params) {
       this.url = this.rootUrl + '/' + route + '/' + id;
       this.method = 'DELETE';
-      this._addTokenGenerateReq('');
+      this._addTokenGenerateReq(params);
     },
 
     _addTokenGenerateReq: function(params) {
