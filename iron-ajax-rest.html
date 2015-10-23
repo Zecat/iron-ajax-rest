@@ -26,7 +26,7 @@ Example:
       last-response="{{lastResponse}}"
       last-error="{{lastError}}">
     </iron-ajax>
-    
+
   </template>
 
 </dom-module>
@@ -53,18 +53,13 @@ Example:
         value: 'json'
       },
 
-      token: {
-        type: String,
-        value: ''
-      },
-
       url: {
         type: String,
         value: ''
       },
 
       params: {
-        type: Object,
+        type: Array,
         value: {}
       },
 
@@ -84,15 +79,11 @@ Example:
       }
 
     },
-
+    
     get: function(route, id, params) {
       this.url = this.rootUrl + '/' + route + '/' + id;
       this.method = 'GET';
-      this.params = params;
-      if (this.token) {
-        this.params.token = this.token;
-      }
-      this.$.ajax.generateRequest();
+      this._addTokenGenerateReq(params);
     },
 
     post: function(route, params) {
@@ -107,7 +98,7 @@ Example:
       this._addTokenGenerateReq(params);
     },
     
-    delete: function(route, id) {
+    delete: function(route, id, params) {
       this.url = this.rootUrl + '/' + route + '/' + id;
       this.method = 'DELETE';
       this._addTokenGenerateReq('');
@@ -117,13 +108,7 @@ Example:
       if (params) {
         this.params = params;
       }
-      if (this.token) {
-        this.params._token = this.token;
-      }
       this.$.ajax.generateRequest();
-    },
-
-    _handleResponse: function(e) {
     },
 
   });
