@@ -23,6 +23,8 @@ Example:
       method="[[method]]"
       handle-as="[[handleAs]]"
       params="[[params]]"
+      on-error="_onError"
+      on-response="_onResponse"
       last-response="{{lastResponse}}"
       last-error="{{lastError}}">
     </iron-ajax>
@@ -110,6 +112,14 @@ Example:
       }
       this.$.ajax.generateRequest();
     },
+
+    _onError: function(e) {
+      this.fire('error', e.detail);
+    },
+
+    _onResponse: function(e) {
+      this.fire('response', e.detail);
+    }
 
   });
 
